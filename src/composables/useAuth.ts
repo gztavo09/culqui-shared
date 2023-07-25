@@ -14,36 +14,35 @@ export const useAuth = () => {
 
     const { setUser } = useAuthStore()
 
-    const isLoading = ref(false);
-    const error = ref("");
+    const isLoading = ref<boolean>(false)
+    const messageError = ref<string>("")
 
     const login = async (credentials: Credentials) => {
         isLoading.value = true;
         try {
             const { data } =  await serviceApi.post<AuthState>('/auth/login', credentials)
-            
-            error.value = "";
-
             Cookie.set('user', JSON.stringify(data))
             setUser(data)
+            messageError.value = "";
+
             router.push('/')
 
         } catch (e) {
-            error.value = "Credenciales incorrectas. Inténtalo de nuevo.";
+            messageError.value = "Credenciales incorrectas. Inténtalo de nuevo.";
         } finally {
             isLoading.value = false;
         }
-    };
+    }
 
     const logout = () => {
         Cookie.remove('user')
         router.replace('/login')
-    };
+    }
 
     return {
         isLoading,
-        error,
+        messageError,
         login,
         logout,
-    };
+    }
 }

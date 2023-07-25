@@ -2,7 +2,7 @@
     import { ref, toRaw } from 'vue';
     import { useAuth } from "@/composables/useAuth";
 
-    const { isLoading, error, login } = useAuth();
+    const { isLoading, messageError, login } = useAuth();
 
 
     const formState = ref({
@@ -11,8 +11,8 @@
     });
 
     const onLogin = () => {
-        console.log('Datos enviados:', formState.value);
-        login(toRaw(formState.value))
+        let form = toRaw(formState.value)
+        login(form)
     };
 </script>
 
@@ -41,9 +41,16 @@
                     <label class="mb-2 text-sm" for="password">Contraseña</label>
                     <input v-model="formState.password" class="border rounded-lg px-3 py-3 text-sm"  type="password" placeholder="Ingresa tu contraseña">
                 </div>
+                <span v-if="messageError !== ''" class="text-red-500 mb-6 text-xs flex items-center">
+                    <div class="mr-2">
+                        <IconInformation /> 
+                    </div>
+                    {{  messageError  }}
+                </span>
                 <button type="button" @click="onLogin" :disabled="isLoading" :class="[ isLoading ? 'opacity-50' : '', 'bg-[#111827] text-white border rounded-lg px-3 py-3 w-full font-semibold mb-6' ]">Iniciar sesión</button>
                 <p class="text-center text-[#A0AEC0] text-sm">¿Eres nuevo aquí? <a href="#" class="text-[#27A376] no-underline">Crea una cuenta</a></p>
             </form>
+            
         </div>
     </div>
 </template>

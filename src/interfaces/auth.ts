@@ -15,5 +15,10 @@ export interface User {
     cargo:        string;
     departamento: string;
     oficina:      string;
-    estadoCuenta: string;
+    estadoCuenta: EstadoCuenta;
+}
+
+export enum EstadoCuenta {
+    Activada = "Activada",
+    Desactivada = "Desactivada",
 }

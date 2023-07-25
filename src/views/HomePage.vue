@@ -10,10 +10,9 @@
         'Acciones'
     ]
 
-    const { employees, isLoading } = useEmployees()
-
-    console.log(employees);
+    const { employees, isLoading, total, prevPage, nextPage, currentPage, setPage } = useEmployees()
     
+
 </script>
 
 <template>
@@ -22,11 +21,19 @@
         <div class="w-full h-screen bg-[#F1F2F4]">
             <NavbarComponent />
             <div class="mx-4 my-6 p-4 bg-white">
-                <BoxSearcherComponent />
+                <BoxSearcherComponent :isLoading="isLoading" />
                 <div class="overflow-x-auto overflow-y-hidden">
-                    <TableComponent :columns="columns" />
+                    <TableComponent 
+                        :isLoading="isLoading"
+                        :columns="columns" 
+                        :initialData="employees"
+                        :total="total"
+                        :currentPage="currentPage"
+                        @prev="prevPage"
+                        @next="nextPage"
+                        @set="setPage"
+                    />
                 </div>
-                
             </div>
         </div>
     </div>

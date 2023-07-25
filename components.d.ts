@@ -15,6 +15,7 @@ declare module 'vue' {
     IconDownload: typeof import('./src/components/icons/IconDownload.vue')['default']
     IconEdit: typeof import('./src/components/icons/IconEdit.vue')['default']
     IconEye: typeof import('./src/components/icons/IconEye.vue')['default']
+    IconInformation: typeof import('./src/components/icons/IconInformation.vue')['default']
     IconMenuBars: typeof import('./src/components/icons/IconMenuBars.vue')['default']
     IconPlus: typeof import('./src/components/icons/IconPlus.vue')['default']
     IconTrash: typeof import('./src/components/icons/IconTrash.vue')['default']
@@ -23,6 +24,7 @@ declare module 'vue' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SidebarComponent: typeof import('./src/components/ui/SidebarComponent.vue')['default']
+    Skeleton: typeof import('./src/components/ui/Skeleton.vue')['default']
     Table: typeof import('./src/components/tables/table.vue')['default']
     TableComponent: typeof import('./src/components/tables/TableComponent.vue')['default']
   }

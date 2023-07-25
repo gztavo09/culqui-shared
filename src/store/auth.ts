@@ -1,7 +1,7 @@
 import type { AuthData, AuthState } from '@/interfaces/auth';
 import { defineStore } from 'pinia';
 
-export const useAuthStore = defineStore('ath', {
+export const useAuthStore = defineStore('auth', {
     state: () => ({
         token: '',
         user: {
