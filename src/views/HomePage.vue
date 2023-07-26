@@ -1,5 +1,6 @@
 <script setup lang="ts">
     import { useEmployees } from '@/composables/useEmployees';
+import { toRaw } from 'vue';
 
     const columns = [
         'Nombre',
@@ -10,9 +11,14 @@
         'Acciones'
     ]
 
-    const { employees, isLoading, total, prevPage, nextPage, currentPage, setPage } = useEmployees()
+    // 1. Composable
+    // const { employees, total, prevPage, nextPage, currentPage, setPage, employeeQuery } = useEmployees()
     
-
+    const { employeeQuery, prevPage, nextPage, currentPage, setPage } = useEmployees()
+    console.log({employeeQuery});
+    
+    const employees = employeeQuery.data.value ? employeeQuery.data.value.data : []
+    const total = employeeQuery.data.value ? employeeQuery.data.value.total : 0
 </script>
 
 <template>
@@ -21,10 +27,11 @@
         <div class="w-full h-screen bg-[#F1F2F4]">
             <NavbarComponent />
             <div class="mx-4 my-6 p-4 bg-white">
-                <BoxSearcherComponent :isLoading="isLoading" />
+                <BoxSearcherComponent :isLoading="employeeQuery.isLoading" />
                 <div class="overflow-x-auto overflow-y-hidden">
+                    {{ employeeQuery.isFetching }}
                     <TableComponent 
-                        :isLoading="isLoading"
+                        :isLoading="employeeQuery.isLoading.value"
                         :columns="columns" 
                         :initialData="employees"
                         :total="total"
