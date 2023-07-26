@@ -10,8 +10,8 @@
 </script>
 
 <template>
-    <div class="h-16 bg-white flex items-center justify-between px-4">
-        <button type="button" 
+    <div class="h-16 bg-white flex items-center justify-end px-4">
+        <button v-if="false" type="button" 
             class="h-8 w-8 flex items-center justify-center rounded-md focus:outline-none">
             <IconMenuBars />
         </button>
@@ -21,7 +21,6 @@
                 <p class="mr-2 text-[#111827] font-medium text-xs">
                     {{ user.nombre }}
                 </p>
-                <ArrowDown width='15' stroke='2.5' />
             </div>
         </div>
     </div>

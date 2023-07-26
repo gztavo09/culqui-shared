@@ -22,7 +22,7 @@ export const useEmployees = () => {
         loadEmployees()
     })
 
-    watch(currentPage, (value) => {
+    watch([currentPage, itemsPerPage], (value) => {
         loadEmployees()
     })
 
@@ -50,25 +50,27 @@ export const useEmployees = () => {
         }
     }
 
-    const nextPage = () => {
-        currentPage.value = currentPage.value + 1
-    }
-    
+    const nextPage = () => currentPage.value = currentPage.value + 1
     const prevPage = () => {
         if(currentPage.value > 1) currentPage.value -= 1
     }
-
     const setPage = (value: number) => currentPage.value = value
+    const setPerPage = (value: number) => {
+        currentPage.value = 1
+        itemsPerPage.value = value
+    }
 
     return {
         employees,
         isLoading,
         messageError,
         total,
+        itemsPerPage,
         currentPage,
         loadEmployees,
         nextPage,
         prevPage,
-        setPage
+        setPage,
+        setPerPage
     }
 }

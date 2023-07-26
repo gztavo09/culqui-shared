@@ -4,16 +4,22 @@
 
     const { isLoading, messageError, login } = useAuth();
 
+    interface Props {
+        correo: string,
+        password: string
+    }
 
-    const formState = ref({
+    const formState = ref<Props>({
         correo: 'c.quispe@culqi.com',
         password: 'admin123'
     });
 
-    const onLogin = () => {
+    const hanglelogin = (e: { preventDefault: () => void; }) => {
+        e.preventDefault()
+        if(formState.value.correo.trim() === '' || formState.value.password.trim() === '') return
         let form = toRaw(formState.value)
         login(form)
-    };
+    }
 </script>
 
 <template>
@@ -29,17 +35,17 @@
             </div>
         </div>
         <div class="w-full sm:w-1/2 h-full bg-white flex flex-col justify-center items-center">
-            <form class="p-6 sm:p-0 max-w-[480px] w-full" @submit.prevent="login">
+            <form class="p-6 sm:p-0 max-w-[480px] w-full" @submit.prevent="hanglelogin">
                 <h1 class="text-center font-bold text-[#111827] text-lg mb-6">Inicia sesión</h1>
 
                 <div class="flex flex-col mb-6">
                     <label class="mb-2 text-sm" for="correo">Correo electrónico</label>
-                    <input class="border rounded-lg px-3 py-3 text-sm" name="correo" v-model="formState.correo" placeholder="Ingresa el correo electrónico">
+                    <input class="border rounded-lg px-3 py-3 text-sm" name="correo" v-model="formState.correo" required placeholder="Ingresa el correo electrónico">
                 </div>
 
                 <div class="flex flex-col mb-6">
                     <label class="mb-2 text-sm" for="password">Contraseña</label>
-                    <input v-model="formState.password" class="border rounded-lg px-3 py-3 text-sm"  type="password" placeholder="Ingresa tu contraseña">
+                    <input v-model="formState.password" class="border rounded-lg px-3 py-3 text-sm" required type="password" placeholder="Ingresa tu contraseña">
                 </div>
                 <span v-if="messageError !== ''" class="text-red-500 mb-6 text-xs flex items-center">
                     <div class="mr-2">
@@ -47,7 +53,7 @@
                     </div>
                     {{  messageError  }}
                 </span>
-                <button type="button" @click="onLogin" :disabled="isLoading" :class="[ isLoading ? 'opacity-50' : '', 'bg-[#111827] text-white border rounded-lg px-3 py-3 w-full font-semibold mb-6' ]">Iniciar sesión</button>
+                <button type="submit" :disabled="isLoading" :class="[ isLoading ? 'opacity-50' : '', 'bg-[#111827] text-white border rounded-lg px-3 py-3 w-full font-semibold mb-6' ]">Iniciar sesión</button>
                 <p class="text-center text-[#A0AEC0] text-sm">¿Eres nuevo aquí? <a href="#" class="text-[#27A376] no-underline">Crea una cuenta</a></p>
             </form>
             

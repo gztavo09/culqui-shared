@@ -8,6 +8,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     BoxSearcherComponent: typeof import('./src/components/box/BoxSearcherComponent.vue')['default']
+    BoxSearcherSkeleton: typeof import('./src/components/box/BoxSearcherSkeleton.vue')['default']
     IconAlterCulqui: typeof import('./src/components/icons/IconAlterCulqui.vue')['default']
     IconArrow: typeof import('./src/components/icons/IconArrow.vue')['default']
     IconBriefcase: typeof import('./src/components/icons/IconBriefcase.vue')['default']
@@ -27,5 +28,6 @@ declare module 'vue' {
     Skeleton: typeof import('./src/components/ui/Skeleton.vue')['default']
     Table: typeof import('./src/components/tables/table.vue')['default']
     TableComponent: typeof import('./src/components/tables/TableComponent.vue')['default']
+    TableSkeleton: typeof import('./src/components/tables/TableSkeleton.vue')['default']
   }
 }

@@ -10,7 +10,7 @@
         'Acciones'
     ]
 
-    const { employees, isLoading, total, prevPage, nextPage, currentPage, setPage } = useEmployees()
+    const { employees, isLoading, total, itemsPerPage, prevPage, nextPage, currentPage, setPage, setPerPage } = useEmployees()
     
 
 </script>
@@ -21,17 +21,21 @@
         <div class="w-full h-screen bg-[#F1F2F4]">
             <NavbarComponent />
             <div class="mx-4 my-6 p-4 bg-white">
-                <BoxSearcherComponent :isLoading="isLoading" />
+                <BoxSearcherSkeleton  v-if="isLoading" />
+                <BoxSearcherComponent v-else />
                 <div class="overflow-x-auto overflow-y-hidden">
-                    <TableComponent 
-                        :isLoading="isLoading"
+                    <TableSkeleton v-if="isLoading" />
+                    <TableComponent
+                        v-else
                         :columns="columns" 
                         :initialData="employees"
                         :total="total"
+                        :itemsPerPage="itemsPerPage"
                         :currentPage="currentPage"
                         @prev="prevPage"
                         @next="nextPage"
                         @set="setPage"
+                        @changePerPage="setPerPage"
                     />
                 </div>
             </div>

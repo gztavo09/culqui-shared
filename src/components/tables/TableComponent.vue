@@ -1,13 +1,6 @@
 <script setup lang="ts">
     import { ref, computed } from 'vue';
-
-    const skeletonData = ref<number[]>()
-
     const props = defineProps({
-        isLoading:{
-          type: Boolean,
-          default: false
-        },
         columns: {
           type: [],
           default: () => []
@@ -29,16 +22,17 @@
           default: 1
         }
     });
+    const selectNumberOfItems= ref<number>(props.itemsPerPage)
+    const emit = defineEmits(['prev', 'next', 'set', 'changePerPage'])
 
-    const emit = defineEmits(['prev', 'next', 'set'])
-
+    //GETTERS
     const page = ref<number>(props.currentPage)
     const totalPages = computed(() => Math.ceil(props.total / props.itemsPerPage));
-
     const totalItems = computed(() => props.total);
     const firstItem = computed(() => (page.value - 1) * props.itemsPerPage + 1);
     const lastItem = computed(() => Math.min(page.value * props.itemsPerPage, totalItems.value));
 
+    //COMPUTED
     const pages = computed(() => {
       const pagesArray: number[] = [];
       for (let i = 1; i <= totalPages.value; i++) {
@@ -47,13 +41,15 @@
       return pagesArray;
     });
 
+    //METHODS
+    const changeItemsPerPage = (e: Event) => {
+      const { value } = e.target as HTMLSelectElement
+      selectNumberOfItems.value = parseInt(value)
+      emit('changePerPage', parseInt(value))
+    }
     const prevPage = () => emit('prev')
     const nextPage = () => emit('next')
     const changePage = (value: number) => emit('set', value)
-
-    //Simulación de datos de SKELETON
-    skeletonData.value = Array.from({ length: 5 }, (_, index) => (index + 1));
-
 </script>
 
 <template>
@@ -71,7 +67,7 @@
             </th>
           </tr>
         </thead>
-        <tbody v-if="!isLoading" >
+        <tbody>
           <tr v-for="item in initialData" :key="item.id">
             <td class="border px-4 py-2 border-[#FAFAFA] border-r-0 border-l-0 text-xs">{{ item.nombre }}</td>
             <td class="border px-4 py-2 border-[#FAFAFA] border-r-0 border-l-0 text-xs">{{ item.cargo }}</td>
@@ -91,16 +87,6 @@
               </button>
               </div>
             </td>
-          </tr>
-        </tbody>
-        <tbody v-else >
-          <tr v-for="item in skeletonData" :key="item">
-            <td class="border px-4 py-2 border-[#FAFAFA] border-r-0 border-l-0 text-xs"><Skeleton /></td>
-            <td class="border px-4 py-2 border-[#FAFAFA] border-r-0 border-l-0 text-xs"><Skeleton /></td>
-            <td class="border px-4 py-2 border-[#FAFAFA] border-r-0 border-l-0 text-xs"><Skeleton /></td>
-            <td class="border px-4 py-2 border-[#FAFAFA] border-r-0 border-l-0 text-xs"><Skeleton /></td>
-            <td class="border px-4 py-2 border-[#FAFAFA] border-r-0 border-l-0 text-xs"><Skeleton /></td>
-            <td class="border px-4 py-2 border-[#FAFAFA] border-r-0 border-l-0 text-xs"><Skeleton /></td>
           </tr>
         </tbody>
       </table>
@@ -125,7 +111,16 @@
           </button>
         </div>
         <div class="flex items-center text-[#687588] text-xs">
-          <span>Mostrando {{ firstItem }} a {{ lastItem }} de {{ totalItems }} registros</span>
+          <span class="mr-2">Mostrando {{ firstItem }} a {{ lastItem }} de {{ totalItems }} registros</span>
+          <select
+              class="border rounded-md px-1 py-1 text-xs"
+              v-model="selectNumberOfItems"
+              @change="changeItemsPerPage($event)"
+            >
+              <template v-for="perPage in [10, 20, 30]" :key="perPage">
+                <option :value="perPage">Mostrar {{ perPage }}</option>
+              </template> 
+          </select>
         </div>
       </div>
     </div>
