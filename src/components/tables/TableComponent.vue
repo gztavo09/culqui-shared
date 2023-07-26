@@ -1,12 +1,13 @@
 <script setup lang="ts">
     import { ref, computed } from 'vue';
+    import type { User } from '@/interfaces/auth';
     const props = defineProps({
         columns: {
           type: [],
           default: () => []
         },
         initialData: {
-            type: Array,
+            type: Array<User>,
             default: () => [],
         },
         total: {
@@ -68,12 +69,12 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="item in initialData" :key="item.id">
-            <td class="border px-4 py-2 border-[#FAFAFA] border-r-0 border-l-0 text-xs">{{ item.nombre }}</td>
-            <td class="border px-4 py-2 border-[#FAFAFA] border-r-0 border-l-0 text-xs">{{ item.cargo }}</td>
-            <td class="border px-4 py-2 border-[#FAFAFA] border-r-0 border-l-0 text-xs">{{ item.departamento }}</td>
-            <td class="border px-4 py-2 border-[#FAFAFA] border-r-0 border-l-0 text-xs">{{ item.oficina }}</td>
-            <td class="border px-4 py-2 border-[#FAFAFA] border-r-0 border-l-0 text-xs">{{ item.estadoCuenta }}</td>
+          <tr v-for="row in initialData" :key="row.id">
+            <td class="border px-4 py-2 border-[#FAFAFA] border-r-0 border-l-0 text-xs">{{ row.nombre }}</td>
+            <td class="border px-4 py-2 border-[#FAFAFA] border-r-0 border-l-0 text-xs">{{ row.cargo }}</td>
+            <td class="border px-4 py-2 border-[#FAFAFA] border-r-0 border-l-0 text-xs">{{ row.departamento }}</td>
+            <td class="border px-4 py-2 border-[#FAFAFA] border-r-0 border-l-0 text-xs">{{ row.oficina }}</td>
+            <td class="border px-4 py-2 border-[#FAFAFA] border-r-0 border-l-0 text-xs">{{ row.estadoCuenta }}</td>
             <td class="border px-4 py-2 border-[#FAFAFA] border-r-0 border-l-0 text-right">
               <div class="flex gap-2 justify-end">
                 <button class="flex justify-center items-center bg-green-500 hover:bg-green-700 text-white font-bold w-[30px] h-[30px] rounded">
